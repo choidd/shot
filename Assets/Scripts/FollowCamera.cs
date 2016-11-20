@@ -13,7 +13,10 @@ public class FollowCamera : MonoBehaviour {
 	
 	// Update is called once per frame
 	void LateUpdate () {
-        transform.position = targetTr.position + Vector3.up * distanceUp -
-            Vector3.forward;
+        transform.position = Vector3.Lerp(transform.position,
+            targetTr.position - (targetTr.forward * distanceAway) +
+            (Vector3.up * distanceUp),
+            Time.deltaTime * 30f);
+        transform.LookAt(targetTr.position);
 	}
 }

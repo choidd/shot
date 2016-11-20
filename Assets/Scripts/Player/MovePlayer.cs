@@ -1,0 +1,22 @@
+﻿using UnityEngine;
+using System.Collections;
+using HedgehogTeam.EasyTouch;
+public class MovePlayer : MonoBehaviour {
+
+    NavMeshAgent nav;
+
+	// Use this for initialization
+	void Start () {
+        nav = GetComponent<NavMeshAgent>();
+	}
+	
+	// Update is called once per frame
+	void Update () {
+        Gesture current = EasyTouch.current;
+        if(current.type == EasyTouch.EvtType.On_SimpleTap)
+        {
+            Vector3 tmp = Camera.main.WorldToScreenPoint(current.position);
+            nav.SetDestination(tmp);
+        }
+	}
+}
