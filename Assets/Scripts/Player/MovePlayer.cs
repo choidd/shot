@@ -5,13 +5,11 @@ public class MovePlayer : MonoBehaviour {
 
     NavMeshAgent nav;
     Gesture current;
-    Camera MC; // main camera
     Ray ray;
     RaycastHit hit;
 	// Use this for initialization
 	void Start () {
         nav = GetComponent<NavMeshAgent>();
-        MC = GetComponentInChildren<Camera>();
 	}
 	
 	// Update is called once per frame
