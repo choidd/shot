@@ -17,7 +17,9 @@ public class MovePlayer : MonoBehaviour {
         current = EasyTouch.current;
         if(current.type == EasyTouch.EvtType.On_SimpleTap)
         {
-            ray = Camera.main.ScreenPointToRay(current.position);
+            Vector3 tmp = current.position;
+            tmp.y += 30f;
+            ray = Camera.main.ScreenPointToRay(tmp);
             Physics.Raycast(ray, out hit);
             move();
         }

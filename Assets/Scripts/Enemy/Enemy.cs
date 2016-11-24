@@ -31,9 +31,5 @@ public class Enemy : MonoBehaviour {
             GetNextPosition();
         else
             nav.SetDestination(tarPos);
-        //Quaternion tarRot = Quaternion.LookRotation(tarPos - transform.position);
-
-        //transform.rotation = Quaternion.Slerp(transform.rotation, tarRot,
-        //    Time.deltaTime * 2.0f);
     }
 }
