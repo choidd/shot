@@ -7,7 +7,7 @@ public class Enemy : MonoBehaviour {
     private Vector3 tarPos;
     private NavMeshAgent nav;
     private float minX, minZ, maxX, maxZ;
-
+    private Animator anim;
 	// Use this for initialization
 	void Start () {
         minX = -20.0f;
@@ -16,6 +16,7 @@ public class Enemy : MonoBehaviour {
         minZ = -20.0f;
         maxZ = 20.0f;
         nav = GetComponent<NavMeshAgent>();
+        anim = GetComponentInChildren<Animator>();
 	}
 	
     void GetNextPosition()
@@ -31,5 +32,20 @@ public class Enemy : MonoBehaviour {
             GetNextPosition();
         else
             nav.SetDestination(tarPos);
+    }
+
+    void OnTriggerEnter(Collider coll)
+    {
+        if (coll.name.Equals("attackDistance"))
+        {
+            die();
+        }
+    }
+
+    void die()
+    {
+        anim.SetTrigger("Death");
+        nav.Stop();
+
     }
 }

@@ -23,7 +23,6 @@ public class Perspective : MonoBehaviour {
             {
                 if(hit.collider.name == "Player")
                 {
-                    ani
                 }
             }
         }

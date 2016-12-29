@@ -41,7 +41,7 @@ AnimatorController:
   - m_Name: WeaponType_int
     m_Type: 3
     m_DefaultFloat: 0
-    m_DefaultInt: 1
+    m_DefaultInt: 3
     m_DefaultBool: 0
     m_Controller: {fileID: 0}
   - m_Name: Grounded
@@ -4998,7 +4998,7 @@ AnimatorStateTransition:
   m_Conditions:
   - m_ConditionMode: 6
     m_ConditionEvent: WeaponType_int
-    m_EventTreshold: 10
+    m_EventTreshold: 3
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 110264428}
   m_Solo: 0
