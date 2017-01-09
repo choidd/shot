@@ -14,7 +14,7 @@ public class AttackPlayer : MonoBehaviour {
     void Update()
     {
         current = EasyTouch.current;
-        if (current.type == EasyTouch.EvtType.On_DoubleTap)
+        if (current.type == EasyTouch.EvtType.On_Drag)
         {
             attack();
         }

@@ -10,10 +10,5 @@ public class Gamemanager : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        Gesture current = EasyTouch.current;
-        if(current.type == EasyTouch.EvtType.On_SimpleTap) // 한번 터치시
-        {
-
-        }
 	}
 }

@@ -8,6 +8,7 @@ public class MovePlayer : MonoBehaviour {
     Ray ray;
     RaycastHit hit;
     Animator anim;
+    float dist;
 	// Use this for initialization
 	void Start () {
         nav = GetComponent<NavMeshAgent>();
@@ -19,20 +20,19 @@ public class MovePlayer : MonoBehaviour {
         current = EasyTouch.current;
         if(current.type == EasyTouch.EvtType.On_SimpleTap)
         {
-            Vector3 tmp = current.position;
-            tmp.y += 30f;
-            ray = Camera.main.ScreenPointToRay(tmp);
-            Physics.Raycast(ray, out hit);
             move();
         }
-        if(current.type == EasyTouch.EvtType.On_DoubleTap)
-        {
-
-        }
+        dist = Vector3.Distance(transform.position, hit.point);
+        if (dist < 0.1f)
+            anim.SetBool("Walk", false);
 	}
 
     void move()
     {
+        Vector3 tmp = current.position;
+        tmp.y += 30f;
+        ray = Camera.main.ScreenPointToRay(tmp);
+        Physics.Raycast(ray, out hit);
         anim.SetBool("Walk", true);
         nav.SetDestination(hit.point);
     }
