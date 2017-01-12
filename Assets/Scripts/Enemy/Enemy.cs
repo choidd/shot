@@ -4,7 +4,7 @@ using System.Collections;
 // 적의 이동 및 인공지능
 public class Enemy : MonoBehaviour {
 
-    public enum MonsterState { idle, attack, trace, die };
+    public enum MonsterState { idle, walk, attack, trace, die };
     private Vector3 tarPos;
     private NavMeshAgent nav;
     private float minX, minZ, maxX, maxZ;
@@ -17,8 +17,9 @@ public class Enemy : MonoBehaviour {
 
     GameObject player;
     private float attackDist = 2.0f;
-    public MonsterState monsterstate;
+    public MonsterState monsterstate = MonsterState.idle;
 
+    bool CanSeePlayer = false;
     public GameObject blood1effect;
 	// Use this for initialization
 	void Start () {
@@ -31,8 +32,7 @@ public class Enemy : MonoBehaviour {
         anim = GetComponentInChildren<Animator>();
         monsterstate = MonsterState.idle;
 
-        StartCoroutine(CheckMonsterState());
-        StartCoroutine(MonsterAction());
+        StartCoroutine(State_Walk());
         player = GameObject.FindGameObjectWithTag("Player");
 	}
 	
@@ -96,30 +96,33 @@ public class Enemy : MonoBehaviour {
             float dist = Vector3.Distance(transform.position, player.transform.position);
             if(dist <= attackDist)
             {
-                monsterstate = MonsterState.attack;
+                monsterstate = MonsterState.trace;
             }
         }
     }
+    
 
-    IEnumerator MonsterAction()
+    IEnumerator State_Walk()
     {
-        while(!isDie)
+        monsterstate = MonsterState.walk;
+        anim.SetTrigger("Walk");
+        while (monsterstate == MonsterState.walk)
         {
-            switch (monsterstate)
+            if (Vector3.Distance(transform.position, tarPos) <= 0.5f)
+                GetNextPosition();
+
+            if (CanSeePlayer)
             {
-                case MonsterState.idle:
-                    if (Vector3.Distance(transform.position, tarPos) <= 0.5f)
-                        GetNextPosition();
-                    else
-                        nav.SetDestination(tarPos);
-                    break;
-                case MonsterState.attack:
-                    break;
-                case MonsterState.trace:
-                    nav.SetDestination(player.transform.position);
-                    break;
+                StartCoroutine(State_Chase());
+                yield break;
             }
-            yield return null;
         }
+        yield return null;
+    }
+
+    IEnumerator State_Chase()
+    {
+        nav.SetDestination(tarPos);
+        yield return null;
     }
 }

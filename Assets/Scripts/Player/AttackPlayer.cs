@@ -22,7 +22,7 @@ public class AttackPlayer : MonoBehaviour {
 
     void attack()
     {
-        anim.SetTrigger("Attack");
+        anim.SetBool("Attack", true);
     }
        
 }
