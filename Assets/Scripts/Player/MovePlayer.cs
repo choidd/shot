@@ -16,9 +16,11 @@ public class MovePlayer : MonoBehaviour {
     Animator anim;
     float dist;
 
+    Transform ThisTransform;
     bool CanSeePlayer = false;
 	// Use this for initialization
 	void Start () {
+        ThisTransform = transform;
         nav = GetComponent<NavMeshAgent>();
         anim = GetComponentInChildren<Animator>();
 	}
@@ -30,7 +32,11 @@ public class MovePlayer : MonoBehaviour {
         {
             move();
         }
-        dist = Vector3.Distance(transform.position, hit.point);
+        else if(current.type == EasyTouch.EvtType.On_Drag)
+        {
+            ThisTransform.forward *= -1;
+        }
+        dist = Vector3.Distance(ThisTransform.position, hit.point);
         if (dist < 0.1f)
             anim.SetBool("Walk", false);
 	}

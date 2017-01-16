@@ -21,6 +21,8 @@ public class Enemy : MonoBehaviour {
 
     bool CanSeePlayer = false;
     public GameObject blood1effect;
+
+    Transform ThisTransform;
 	// Use this for initialization
 	void Start () {
         minX = -20.0f;
@@ -31,7 +33,8 @@ public class Enemy : MonoBehaviour {
         nav = GetComponent<NavMeshAgent>();
         anim = GetComponentInChildren<Animator>();
         monsterstate = MonsterState.idle;
-
+        ThisTransform = transform;
+        GetNextPosition();
         StartCoroutine(State_Walk());
         player = GameObject.FindGameObjectWithTag("Player");
 	}
@@ -44,19 +47,6 @@ public class Enemy : MonoBehaviour {
 	// Update is called once per frame
     
 	void Update () {
-        rayDirection = player.transform.position - transform.position;
-
-        if ((Vector3.Angle(rayDirection, transform.forward)) < 45)
-        {
-            if (Physics.Raycast(transform.position, rayDirection, out hit))
-            {
-                if (hit.collider.name == "Player")
-                {
-                    monsterstate = MonsterState.trace;
-                }
-            }
-        }
-        Debug.Log(monsterstate);
     }
 
     void OnTriggerEnter(Collider coll)
@@ -78,7 +68,7 @@ public class Enemy : MonoBehaviour {
 
     void CreateBloodEffect()
     {
-        Vector3 decalPos = transform.position + (Vector3.up * 0.05f);
+        Vector3 decalPos = ThisTransform.position + (Vector3.up * 0.05f);
         Quaternion decalRot = Quaternion.Euler(90, 0, Random.Range(0, 360));
 
         GameObject blood1 = (GameObject)Instantiate(blood1effect, decalPos, decalRot);
@@ -88,40 +78,43 @@ public class Enemy : MonoBehaviour {
         Destroy(blood1, 3.0f);
     }
 
-    IEnumerator CheckMonsterState()
-    {
-        while(!isDie)
-        {
-            yield return new WaitForSeconds(0.2f);
-            float dist = Vector3.Distance(transform.position, player.transform.position);
-            if(dist <= attackDist)
-            {
-                monsterstate = MonsterState.trace;
-            }
-        }
-    }
-    
-
     IEnumerator State_Walk()
     {
         monsterstate = MonsterState.walk;
         anim.SetTrigger("Walk");
+        nav.SetDestination(tarPos);
         while (monsterstate == MonsterState.walk)
         {
-            if (Vector3.Distance(transform.position, tarPos) <= 0.5f)
-                GetNextPosition();
+            rayDirection = player.transform.position - ThisTransform.position;
 
-            if (CanSeePlayer)
+            Debug.DrawRay(ThisTransform.position, rayDirection);
+            if ((Vector3.Angle(rayDirection, ThisTransform.forward)) < 45)
             {
-                StartCoroutine(State_Chase());
-                yield break;
+                if (Physics.Raycast(ThisTransform.position, ThisTransform.forward, out hit))
+                {
+                    if (hit.collider.name == "Player")
+                    {
+                        monsterstate = MonsterState.trace;
+                        StartCoroutine(State_Chase());
+                        yield break;
+                    }
+                }
             }
+
+            if (Vector3.Distance(ThisTransform.position, tarPos) <= 0.5f)
+                GetNextPosition();
         }
         yield return null;
     }
 
     IEnumerator State_Chase()
     {
+        monsterstate = MonsterState.trace;
+        anim.SetTrigger("Chase");
+        while (monsterstate == MonsterState.trace)
+        {
+
+        }
         nav.SetDestination(tarPos);
         yield return null;
     }
