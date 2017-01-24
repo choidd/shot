@@ -9,7 +9,7 @@ public class MovePlayer : MonoBehaviour {
     };
 
     AI_PLAYER_STATE current_state = AI_PLAYER_STATE.WALK;
-    NavMeshAgent nav;
+    UnityEngine.AI.NavMeshAgent nav;
     Gesture current;
     Ray ray;
     RaycastHit hit;
@@ -21,7 +21,7 @@ public class MovePlayer : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
         ThisTransform = transform;
-        nav = GetComponent<NavMeshAgent>();
+        nav = GetComponent<UnityEngine.AI.NavMeshAgent>();
         anim = GetComponentInChildren<Animator>();
 	}
 	
@@ -32,22 +32,14 @@ public class MovePlayer : MonoBehaviour {
         {
             move();
         }
-        else if(current.type == EasyTouch.EvtType.On_Drag)
-        {
-            ThisTransform.forward *= -1;
-        }
-        dist = Vector3.Distance(ThisTransform.position, hit.point);
-        if (dist < 0.1f)
-            anim.SetBool("Walk", false);
 	}
 
     void move()
     {
-        Vector3 tmp = current.position;
-        tmp.y += 30f;
-        ray = Camera.main.ScreenPointToRay(tmp);
+        ray = Camera.main.ScreenPointToRay(ThisTransform.position);
         Physics.Raycast(ray, out hit);
         nav.SetDestination(hit.point);
+        
     }
 
     public IEnumerator State_Walk()

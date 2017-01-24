@@ -6,7 +6,7 @@ public class Enemy : MonoBehaviour {
 
     public enum MonsterState { idle, walk, attack, trace, die };
     private Vector3 tarPos;
-    private NavMeshAgent nav;
+    private UnityEngine.AI.NavMeshAgent nav;
     private float minX, minZ, maxX, maxZ;
     private Animator anim;
     private bool isDie = false;
@@ -30,7 +30,7 @@ public class Enemy : MonoBehaviour {
 
         minZ = -20.0f;
         maxZ = 20.0f;
-        nav = GetComponent<NavMeshAgent>();
+        nav = GetComponent<UnityEngine.AI.NavMeshAgent>();
         anim = GetComponentInChildren<Animator>();
         monsterstate = MonsterState.idle;
         ThisTransform = transform;
