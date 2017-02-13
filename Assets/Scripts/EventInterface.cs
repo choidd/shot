@@ -8,7 +8,8 @@ public enum EVENT_TYPE
     GAME_END,
     GAME_PLAYER_HEALTH_CHANGE,
     GAME_PLAYER_DIE,
-    GAME_PLAYER_WALK,R
+    GAME_PLAYER_WALK,
+    GAME_ENEMY_ATTACK,
 };
 
 public interface IListener

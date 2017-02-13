@@ -4,13 +4,14 @@ using UnityEngine;
 
 public class EventManager : MonoBehaviour {
 
+    
     public static EventManager Instance
     {
         get { return instance; }
         set { }
     }
-
-    private static EventManager instance = null;
+    
+    public static EventManager instance = null;
 
     private Dictionary<EVENT_TYPE, List<IListener>> Listeners = new Dictionary<EVENT_TYPE, List<IListener>>();
 	// Use this for initialization
