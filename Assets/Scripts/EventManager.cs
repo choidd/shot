@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class EventManager : MonoBehaviour {
 
-    
     public static EventManager Instance
     {
         get { return instance; }

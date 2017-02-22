@@ -1,43 +1,47 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using HedgehogTeam.EasyTouch;
 
-public class PlayerManager : MonoBehaviour {
+public class PlayerManager : MonoBehaviour, IListener {
     public enum PLAYER_STATE
     {
         IDLE, WALK, ATTACK, CHASE
     };
 
     PLAYER_STATE current_state = PLAYER_STATE.IDLE;
-
-    Gesture current; // 현재 터치상태
+    
     Ray ray;
     RaycastHit hit;
     UnityEngine.AI.NavMeshAgent nav;
 
-    Animator anim;
+    float h, v;
+    public float moveSpeed = 10.0f;
+    public float rotSpeed = 100.0f;
 
-	// Use this for initialization
-	void Start () {
+    Animator anim;
+    GameObject attackArea;
+
+    public GameObject Bullet;
+    // Use this for initialization
+    void Start () {
         nav = GetComponent<UnityEngine.AI.NavMeshAgent>();
         anim = GetComponentInChildren<Animator>();
-        
+
+        attackArea = GameObject.Find("attackArea");
+
+        EventManager.Instance.AddListener(EVENT_TYPE.GAME_PLAYER_DAMAGED, this);
+        EventManager.Instance.AddListener(EVENT_TYPE.GAME_PLAYER_ATTACK, this);
+
         StartCoroutine(State_Control());
     }
 	
 	// Update is called once per frame
 	void Update () {
-        current = EasyTouch.current;
-        switch (current.type)
+        anim.SetFloat("Speed", (h * h + v * v));
+        if (h != 0f && v != 0f)
         {
-            case EasyTouch.EvtType.On_SimpleTap:
-                current_state = PLAYER_STATE.WALK;
-
-                ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-                Physics.Raycast(ray, out hit);
-                nav.SetDestination(hit.point);
-                break;
+            transform.Translate(Vector3.forward * moveSpeed * v * Time.deltaTime, Space.Self);
+            transform.Rotate(Vector3.up * Time.deltaTime * rotSpeed * h);
         }
     }
    
@@ -49,21 +53,39 @@ public class PlayerManager : MonoBehaviour {
             switch (current_state)
             {
                 case PLAYER_STATE.IDLE:
-                    anim.SetBool("isWalking", false);
+                    anim.SetBool("Walk", false);
+                    anim.SetBool("Run", false);
                     break;
                 case PLAYER_STATE.WALK:
-                    anim.SetBool("isWalking", true);
-                    if (nav.remainingDistance <= nav.stoppingDistance)
-                        current_state = PLAYER_STATE.IDLE;
+                    anim.SetBool("Walk", false);
+                    anim.SetBool("Run", true);
                     break;
                 case PLAYER_STATE.CHASE:
                     break;
                 case PLAYER_STATE.ATTACK:
+                    anim.SetBool("isAttack", true);
                     break;
             }
             
         }
 
     }
-    
+    public void OnEvent(EVENT_TYPE Event_Type, Component Sender, object Param = null)
+    {
+        switch(Event_Type)
+        {
+            case EVENT_TYPE.GAME_PLAYER_DAMAGED:
+                //anim.SetTrigger("damaged");
+                break;
+            case EVENT_TYPE.GAME_PLAYER_ATTACK:
+                Instantiate(Bullet, transform.position, transform.rotation);
+                break;
+        }
+    }
+
+    public void OnStickChanged(Vector2 stickPos)
+    {
+        h = stickPos.x;
+        v = stickPos.y;
+    }
 }

@@ -3,14 +3,36 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class SoundManager : MonoBehaviour, IListener {
+    public static SoundManager Instance
+    {
+        get { return instance; }
+        set { }
+    }
+
+    public static SoundManager instance = null;
+
 
     public AudioClip[] stageBGM;
     public AudioClip titleBGM;
     public AudioClip WhistleBGM;
 
     AudioSource thisAudio;
-	// Use this for initialization
-	void Start () {
+    // Use this for initialization
+
+    void Awake()
+    {
+        if (instance == null)
+        {
+            instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            DestroyImmediate(this);
+        }
+    }
+
+    void Start () {
         EventManager.Instance.AddListener(EVENT_TYPE.GAME_ENEMY_ATTACK, this);
         thisAudio = GetComponent<AudioSource>();
         thisAudio.clip = WhistleBGM;
