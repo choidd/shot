@@ -19,16 +19,13 @@ public class PlayerManager : MonoBehaviour, IListener {
     public float rotSpeed = 100.0f;
 
     Animator anim;
-    GameObject attackArea;
 
     public GameObject Bullet;
     // Use this for initialization
     void Start () {
         nav = GetComponent<UnityEngine.AI.NavMeshAgent>();
         anim = GetComponentInChildren<Animator>();
-
-        attackArea = GameObject.Find("attackArea");
-
+        
         EventManager.Instance.AddListener(EVENT_TYPE.GAME_PLAYER_DAMAGED, this);
         EventManager.Instance.AddListener(EVENT_TYPE.GAME_PLAYER_ATTACK, this);
 
@@ -53,17 +50,12 @@ public class PlayerManager : MonoBehaviour, IListener {
             switch (current_state)
             {
                 case PLAYER_STATE.IDLE:
-                    anim.SetBool("Walk", false);
-                    anim.SetBool("Run", false);
                     break;
                 case PLAYER_STATE.WALK:
-                    anim.SetBool("Walk", false);
-                    anim.SetBool("Run", true);
                     break;
                 case PLAYER_STATE.CHASE:
                     break;
                 case PLAYER_STATE.ATTACK:
-                    anim.SetBool("isAttack", true);
                     break;
             }
             

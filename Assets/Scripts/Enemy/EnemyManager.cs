@@ -122,13 +122,5 @@ public class EnemyManager : MonoBehaviour {
         Debug.DrawRay(transform.position, leftRayPoint, Color.green);
         Debug.DrawRay(transform.position, rightRayPoint, Color.green);
     }
-
-    void OnCollisionEnter(Collider coll)
-    {
-        if (coll.GetComponent<Collider>().tag == "Bullet")
-        {
-            Destroy(this);
-            EventManager.Instance.PoistNotification(EVENT_TYPE.GAME_ENEMY_DIE, this);
-        }
-    }
+    
 }
