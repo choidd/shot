@@ -62,7 +62,8 @@ public class EnemyManager : MonoBehaviour {
                 case MONSTER_STATE.idle:
                     break;
                 case MONSTER_STATE.walk:
-                    anim.SetBool("isWalk", true);
+                    anim.SetTrigger("walk");
+                    
                     rayDirection = playerTr.position - transform.position;
                     
                     if ((Vector3.Angle(rayDirection, transform.forward)) < 45) // 몬스터의 45도 시야안에 있고
@@ -74,15 +75,15 @@ public class EnemyManager : MonoBehaviour {
                     nav.SetDestination(tarPos);
                     break;
                 case MONSTER_STATE.trace:
-                    anim.SetBool("isTrace", true);
+                    //anim.SetTrigger("walk");
                     nav.SetDestination(playerTr.position); 
-                    if(Vector3.Distance(transform.position, playerTr.position) < 5f) // 플레이어와 몬스터의 위치가 가까우면
+                    if(Vector3.Distance(transform.position, playerTr.position) < 50f) // 플레이어와 몬스터의 위치가 가까우면
                     {
                         current_state = MONSTER_STATE.attack; // 어택모드
                     }
                     break;
                 case MONSTER_STATE.attack:
-                    anim.SetBool("isAttack", true);
+                    anim.SetTrigger("attack");
                     attack();
                     break;
             }
@@ -91,6 +92,7 @@ public class EnemyManager : MonoBehaviour {
 
     void attack()
     {
+        
         int randomNumber = Random.Range(0, 9);
         EventManager.Instance.PoistNotification(EVENT_TYPE.GAME_ENEMY_ATTACK, this);
         if (randomNumber == 0)
@@ -122,5 +124,21 @@ public class EnemyManager : MonoBehaviour {
         Debug.DrawRay(transform.position, leftRayPoint, Color.green);
         Debug.DrawRay(transform.position, rightRayPoint, Color.green);
     }
-    
+    void OnCollisionEnter(Collision coll)
+    {
+        if(coll.gameObject.tag == "Bullet")
+        { 
+            Debug.Log("enter");
+            Destroy(coll.gameObject);
+            Die();
+        }
+    }
+
+    void Die()
+    {
+        anim.SetTrigger("Die");
+        StopAllCoroutines();
+        nav.Stop();
+        Destroy(this, 2.0f);
+    }
 }

@@ -7,12 +7,13 @@ public class UIManager : MonoBehaviour, IListener {
 
     public Slider hpBar;
     public Image attackedBlood;
-    Color flashColour = new Color(1f, 0f, 0f, 0.1f);
+    Color flashColour = new Color(1f, 0f, 0f, 0.5f);
 
 
     // Use this for initialization
     void Start () {
         EventManager.Instance.AddListener(EVENT_TYPE.GAME_PLAYER_HEALTH_CHANGE, this);
+        
     }
 
     public void OnEvent(EVENT_TYPE Event_Type, Component Sender, object Param = null)
@@ -22,7 +23,7 @@ public class UIManager : MonoBehaviour, IListener {
             case EVENT_TYPE.GAME_PLAYER_HEALTH_CHANGE:
                 hpBar.value -= (int)Param;
                 attackedBlood.color = flashColour;
-                attackedBlood.color = Color.Lerp(attackedBlood.color, Color.clear, 50 * Time.deltaTime);
+                attackedBlood.color = Color.Lerp(attackedBlood.color, Color.clear, 5 * Time.deltaTime);
                 break;
         }
     }

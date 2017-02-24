@@ -21,11 +21,12 @@ public class PlayerManager : MonoBehaviour, IListener {
     Animator anim;
 
     public GameObject Bullet;
+    private Transform gun;
     // Use this for initialization
     void Start () {
         nav = GetComponent<UnityEngine.AI.NavMeshAgent>();
         anim = GetComponentInChildren<Animator>();
-        
+        gun = GameObject.Find("attackArea").transform;
         EventManager.Instance.AddListener(EVENT_TYPE.GAME_PLAYER_DAMAGED, this);
         EventManager.Instance.AddListener(EVENT_TYPE.GAME_PLAYER_ATTACK, this);
 
@@ -70,7 +71,7 @@ public class PlayerManager : MonoBehaviour, IListener {
                 //anim.SetTrigger("damaged");
                 break;
             case EVENT_TYPE.GAME_PLAYER_ATTACK:
-                Instantiate(Bullet, transform.position, transform.rotation);
+                Instantiate(Bullet, gun.position, gun.rotation);
                 break;
         }
     }

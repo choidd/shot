@@ -5,15 +5,16 @@ using UnityEngine;
 public class Bullet : MonoBehaviour {
 
     public int damage = 20;
-    public float speed = 1000.0f;
-
+    public float speed = 2000.0f;
+    
 	// Use this for initialization
 	void Start () {
-        GetComponent<Rigidbody>().AddForce(transform.forward * speed);	
+        GetComponent<Rigidbody>().AddForce(transform.forward * speed);
 	}
 	
 	// Update is called once per frame
-	void Update () {
-		
-	}
+	void OnTriggerEnter(Collider coll)
+    {
+        Debug.Log(coll);
+    }
 }
