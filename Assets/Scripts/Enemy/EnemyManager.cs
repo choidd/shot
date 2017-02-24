@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyManager : MonoBehaviour {
+public class EnemyManager : MonoBehaviour, IListener {
 
     public enum MONSTER_STATE {
         idle,
@@ -14,9 +14,7 @@ public class EnemyManager : MonoBehaviour {
     private Vector3 tarPos;
     private float minX, minZ, maxX, maxZ;
     private Animator anim;
-
-    Ray ray;
-    RaycastHit hit;
+    
     Vector3 rayDirection;
 
     Transform playerTr;
@@ -84,7 +82,7 @@ public class EnemyManager : MonoBehaviour {
                     break;
                 case MONSTER_STATE.attack:
                     anim.SetTrigger("attack");
-                    attack();
+                    //attack();
                     break;
             }
         }
@@ -126,19 +124,28 @@ public class EnemyManager : MonoBehaviour {
     }
     void OnCollisionEnter(Collision coll)
     {
-        if(coll.gameObject.tag == "Bullet")
+        Debug.Log(coll.gameObject.tag);
+        if(coll.gameObject.tag.Equals("Bullet"))
         { 
             Debug.Log("enter");
-            Destroy(coll.gameObject);
+            Destroy(coll.gameObject); // 총에 맞으면 총알을 지운다.
             Die();
         }
     }
 
-    void Die()
+    void Die() // 죽을때 처리해야하는것 (animator, nav mesh agent, coroutine)
     {
         anim.SetTrigger("Die");
         StopAllCoroutines();
         nav.Stop();
         Destroy(this, 2.0f);
+    }
+    public void OnEvent(EVENT_TYPE Event_Type, Component Sender, object Param = null)
+    {
+        switch (Event_Type)
+        {
+            case EVENT_TYPE.GAME_ENEMY_DIE:
+                break;
+        }
     }
 }
