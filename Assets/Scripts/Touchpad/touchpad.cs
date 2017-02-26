@@ -16,6 +16,7 @@ public class touchpad : MonoBehaviour, IListener {
     private bool _buttonPressed = false;
 
     public Transform playerTr;
+
     Ray ray;
     RaycastHit rayHit;
     // Use this for initialization
@@ -130,5 +131,10 @@ public class touchpad : MonoBehaviour, IListener {
             case EVENT_TYPE.GAME_PLAYER_ATTACK:
                 break;
         }
+    }
+
+    public void btn_setup()
+    {
+        EventManager.Instance.PoistNotification(EVENT_TYPE.GAME_OPTION_CLICK, this);
     }
 }

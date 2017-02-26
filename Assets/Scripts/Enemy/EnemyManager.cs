@@ -23,6 +23,8 @@ public class EnemyManager : MonoBehaviour, IListener {
     
     private UnityEngine.AI.NavMeshAgent nav;
 
+    Collider thisColl;
+    Rigidbody thisrigidBody;
     // Use this for initialization
     void Start () {
         minX = 0.0f;
@@ -36,7 +38,8 @@ public class EnemyManager : MonoBehaviour, IListener {
         StartCoroutine(State_Control());
         anim = GetComponentInChildren<Animator>();
         GetNextPosition();
-
+        thisrigidBody = GetComponent<Rigidbody>();
+        thisColl = GetComponent<BoxCollider>();
         //EventManager.Instance.AddListener(EVENT_TYPE.GAME_ENEMY_DIE, this);
     }
 
@@ -124,7 +127,6 @@ public class EnemyManager : MonoBehaviour, IListener {
     }
     void OnCollisionEnter(Collision coll)
     {
-        Debug.Log(coll.gameObject.tag);
         if(coll.gameObject.tag.Equals("Bullet"))
         { 
             Debug.Log("enter");
@@ -135,10 +137,13 @@ public class EnemyManager : MonoBehaviour, IListener {
 
     void Die() // 죽을때 처리해야하는것 (animator, nav mesh agent, coroutine)
     {
-        anim.SetTrigger("Die");
+        anim.SetTrigger("death");
         StopAllCoroutines();
         nav.Stop();
+        thisColl.enabled = false;
+        thisrigidBody.Sleep();
         Destroy(this, 2.0f);
+        EventManager.Instance.PoistNotification(EVENT_TYPE.GAME_ENEMY_DIE, this);
     }
     public void OnEvent(EVENT_TYPE Event_Type, Component Sender, object Param = null)
     {

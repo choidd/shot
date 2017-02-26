@@ -527,7 +527,7 @@ PlayerSettings:
     Game_Performance: 0
     Hub: 0
     Purchasing: 0
-    UNet: 0
+    UNet: 1
     Unity_Ads: 0
   cloudProjectId: 72354b0e-4fd5-492b-a8e6-71ae284f7f71
   projectName: cb

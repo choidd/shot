@@ -12,6 +12,7 @@ public enum EVENT_TYPE
     GAME_PLAYER_DAMAGED,
     GAME_ENEMY_ATTACK,
     GAME_ENEMY_DIE,
+    GAME_OPTION_CLICK
 };
 
 public interface IListener

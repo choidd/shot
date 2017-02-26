@@ -15,6 +15,6 @@ public class Bullet : MonoBehaviour {
 	// Update is called once per frame
 	void OnTriggerEnter(Collider coll)
     {
-        //EventManager.Instance.AddListener(EVENT_TYPE.GAME_ENEMY_DIE, coll.gameObject.);
+       // EventManager.Instance.AddListener(EVENT_TYPE.GAME_ENEMY_DIE, coll.gameObject.);
     }
 }
