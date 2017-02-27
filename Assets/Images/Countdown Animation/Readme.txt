@@ -1,0 +1,3 @@
+﻿Countdown Animation Readme v0.1
+Want to add countdown animation to your game? Easy, just simply drag and drop this countdown animation prefab to your scene, and set the parameters of the prefab as you want, e.g: start number, end number, start after seconds... 
+The countdown animation prefab is in the Prefabs folder and it includes smooth animation and sound effects.
