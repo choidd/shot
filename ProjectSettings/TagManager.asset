@@ -9,6 +9,7 @@ TagManager:
   - hp
   - Bullet
   - Terrain
+  - Fire
   layers:
   - Default
   - TransparentFX
@@ -20,8 +21,8 @@ TagManager:
   - 
   - Terrain
   - Enemy
-  - 
-  - 
+  - Bullet
+  - Player
   - 
   - 
   - 

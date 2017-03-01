@@ -21,6 +21,11 @@ public class UIManager : MonoBehaviour, IListener {
 
     }
 
+    public void btn_setup()
+    {
+        EventManager.Instance.PoistNotification(EVENT_TYPE.GAME_OPTION_CLICK, this);
+    }
+
     public void OnEvent(EVENT_TYPE Event_Type, Component Sender, object Param = null)
     {
         switch(Event_Type)
@@ -43,6 +48,9 @@ public class UIManager : MonoBehaviour, IListener {
                     setupWindow.SetActive(false);
                     issetupWindow = false;
                 }
+                break;
+            case EVENT_TYPE.GAME_STATE_WIN:
+
                 break;
         }
     }

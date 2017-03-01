@@ -43,6 +43,8 @@ public class touchpad : MonoBehaviour, IListener {
     {
         _buttonPressed = false;
 
+        HandleInput(_startPos);
+
     }
 
     void FixedUpdate()
@@ -133,8 +135,4 @@ public class touchpad : MonoBehaviour, IListener {
         }
     }
 
-    public void btn_setup()
-    {
-        EventManager.Instance.PoistNotification(EVENT_TYPE.GAME_OPTION_CLICK, this);
-    }
 }

@@ -40,7 +40,7 @@ public class EnemyManager : MonoBehaviour, IListener {
         GetNextPosition();
         thisrigidBody = GetComponent<Rigidbody>();
         thisColl = GetComponent<BoxCollider>();
-        //EventManager.Instance.AddListener(EVENT_TYPE.GAME_ENEMY_DIE, this);
+        EventManager.Instance.AddListener(EVENT_TYPE.GAME_ENEMY_DIE, this);
     }
 
     void GetNextPosition()
@@ -90,25 +90,7 @@ public class EnemyManager : MonoBehaviour, IListener {
             }
         }
     }
-
-    void attack()
-    {
-        
-        int randomNumber = Random.Range(0, 9);
-        EventManager.Instance.PoistNotification(EVENT_TYPE.GAME_ENEMY_ATTACK, this);
-        if (randomNumber == 0)
-        {
-            // 플레이어 타격 이벤트 호출
-            EventManager.Instance.PoistNotification(EVENT_TYPE.GAME_PLAYER_HEALTH_CHANGE, this, 2);
-            EventManager.Instance.PoistNotification(EVENT_TYPE.GAME_PLAYER_DAMAGED, this);
-        }
-
-        if (Vector3.Distance(transform.position, playerTr.position) > 14f)
-        {
-            current_state = MONSTER_STATE.walk;
-        }
-    }
-
+    
     void OnDrawGizmos()
     {
         if (playerTr == null) return;
@@ -128,29 +110,29 @@ public class EnemyManager : MonoBehaviour, IListener {
     void OnCollisionEnter(Collision coll)
     {
         if(coll.gameObject.tag.Equals("Bullet"))
-        { 
-            Debug.Log("enter");
-            Destroy(coll.gameObject); // 총에 맞으면 총알을 지운다.
+        {
             Die();
+            EventManager.Instance.PoistNotification(EVENT_TYPE.GAME_ENEMY_DIE, this);
         }
     }
 
     void Die() // 죽을때 처리해야하는것 (animator, nav mesh agent, coroutine)
     {
+        //GameObject blood = (GameObject)Instantiate(blood1, transform.position + (Vector3.up * 0.05f), transform.rotation);
         anim.SetTrigger("death");
         StopAllCoroutines();
         nav.Stop();
         thisColl.enabled = false;
         thisrigidBody.Sleep();
         Destroy(this, 2.0f);
-        EventManager.Instance.PoistNotification(EVENT_TYPE.GAME_ENEMY_DIE, this);
+        //Destroy(blood, 2.0f);
+        
     }
+
     public void OnEvent(EVENT_TYPE Event_Type, Component Sender, object Param = null)
     {
         switch (Event_Type)
-        {
-            case EVENT_TYPE.GAME_ENEMY_DIE:
-                break;
+        { 
         }
     }
 }
