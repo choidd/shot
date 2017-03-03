@@ -31,7 +31,9 @@ public class Gamemanager : MonoBehaviour, IListener {
     {
         if(killMonster == maxMonster)
         {
+            Debug.Log("success");
             EventManager.Instance.PoistNotification(EVENT_TYPE.GAME_STATE_WIN, this);
+            killMonster = 0;
         }
     }
 

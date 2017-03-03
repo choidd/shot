@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.SceneManagement;
 
 public class MainScript : MonoBehaviour {
     
@@ -14,6 +15,6 @@ public class MainScript : MonoBehaviour {
 
     public void btn_start()
     {
-        
+        SceneManager.LoadScene("city");
     }
 }

@@ -7,6 +7,7 @@ public class UIManager : MonoBehaviour, IListener {
 
     public Slider hpBar;
     public Image attackedBlood;
+    public GameObject success;
     Color flashColour = new Color(1f, 0f, 0f, 0.5f);
 
 
@@ -18,7 +19,7 @@ public class UIManager : MonoBehaviour, IListener {
     void Start () {
         EventManager.Instance.AddListener(EVENT_TYPE.GAME_PLAYER_HEALTH_CHANGE, this);
         EventManager.Instance.AddListener(EVENT_TYPE.GAME_OPTION_CLICK, this);
-
+        EventManager.Instance.AddListener(EVENT_TYPE.GAME_STATE_WIN, this);
     }
 
     public void btn_setup()
@@ -50,7 +51,7 @@ public class UIManager : MonoBehaviour, IListener {
                 }
                 break;
             case EVENT_TYPE.GAME_STATE_WIN:
-
+                success.SetActive(true);
                 break;
         }
     }

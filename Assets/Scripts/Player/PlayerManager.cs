@@ -12,7 +12,6 @@ public class PlayerManager : MonoBehaviour, IListener {
     
     Ray ray;
     RaycastHit hit;
-    UnityEngine.AI.NavMeshAgent nav;
 
     float h, v;
     public float moveSpeed = 10.0f;
@@ -24,7 +23,6 @@ public class PlayerManager : MonoBehaviour, IListener {
     private Transform gun;
     // Use this for initialization
     void Start () {
-        nav = GetComponent<UnityEngine.AI.NavMeshAgent>();
         anim = GetComponentInChildren<Animator>();
         gun = GameObject.Find("attackArea").transform;
         EventManager.Instance.AddListener(EVENT_TYPE.GAME_PLAYER_DAMAGED, this);

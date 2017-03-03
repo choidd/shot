@@ -132,7 +132,7 @@ public class EnemyManager : MonoBehaviour, IListener {
     public void OnEvent(EVENT_TYPE Event_Type, Component Sender, object Param = null)
     {
         switch (Event_Type)
-        { 
+        {
         }
     }
 }
