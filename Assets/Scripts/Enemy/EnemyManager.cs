@@ -112,6 +112,7 @@ public class EnemyManager : MonoBehaviour, IListener {
         if(coll.gameObject.tag.Equals("Bullet"))
         {
             Die();
+            Destroy(coll.gameObject);
             EventManager.Instance.PoistNotification(EVENT_TYPE.GAME_ENEMY_DIE, this);
         }
     }

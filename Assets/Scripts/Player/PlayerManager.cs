@@ -24,7 +24,7 @@ public class PlayerManager : MonoBehaviour, IListener {
     // Use this for initialization
     void Start () {
         anim = GetComponentInChildren<Animator>();
-        gun = GameObject.Find("attackArea").transform;
+        gun = GameObject.Find("attackArea").transform; // 총알 나가는 위치
         EventManager.Instance.AddListener(EVENT_TYPE.GAME_PLAYER_DAMAGED, this);
         EventManager.Instance.AddListener(EVENT_TYPE.GAME_PLAYER_ATTACK, this);
 

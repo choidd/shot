@@ -4,11 +4,10 @@ using UnityEngine;
 using GooglePlayGames;
 using UnityEngine.UI;
 using UnityEngine.SocialPlatforms;
+using UnityEngine.SceneManagement;
 
 public class GoogleManager : MonoBehaviour {
-
-    public Text debug;
-    public Text id;
+    
 	// Use this for initialization
 	void Awake () {
         PlayGamesPlatform.DebugLogEnabled = true;
@@ -20,7 +19,9 @@ public class GoogleManager : MonoBehaviour {
         Social.localUser.Authenticate((bool success) =>
         {
             if (success == true)
-                id.text = Social.localUser.id;
+            {
+                SceneManager.LoadScene("main");
+            }
             else
                 Debug.Log("login error");
         });
