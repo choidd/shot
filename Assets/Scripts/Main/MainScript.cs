@@ -6,17 +6,26 @@ using UnityEngine.UI;
 public class MainScript : MonoBehaviour {
 
     public Text ID;
-    string strID;
+    public Text LEVEL;
+    string strID, strLEVEL;
 	// Use this for initialization
 	void Start ()
     {
-        strID = "Google ID : " + Social.localUser.userName;
+        strID = "ID : " + Social.localUser.userName;
+        DataManager.Instance.userId = Social.localUser.userName;
+        DataManager.Instance.loadData();
+        strLEVEL = "LEVEL : " + DataManager.Instance.userLevel;
+        ID.text = strID;
+        LEVEL.text = strLEVEL;
 	}
 
     public void btn_start()
     {
-        //SceneManager.LoadScene("city");
-        
-        //GoogleManager.Instance.PostingScoreToLeaderBoard(200);
+        SceneManager.LoadScene("city");
+    }
+
+    public void btn_leaderboard()
+    {
+        Social.ShowLeaderboardUI();
     }
 }

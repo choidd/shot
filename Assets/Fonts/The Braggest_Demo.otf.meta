@@ -1,0 +1,21 @@
+fileFormatVersion: 2
+guid: 7e5435150e22e4945ad16f5bfea76e57
+timeCreated: 1489335200
+licenseType: Free
+TrueTypeFontImporter:
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: The BraggestDemo
+  fontNames:
+  - The BraggestDemo
+  fallbackFontReferences: []
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

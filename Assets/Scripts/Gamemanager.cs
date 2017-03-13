@@ -1,6 +1,10 @@
 ﻿using UnityEngine;
 using System.Collections;
 using HedgehogTeam.EasyTouch;
+using UnityEngine.SceneManagement;
+using GooglePlayGames.BasicApi;
+using GooglePlayGames.BasicApi.SavedGame;
+
 
 public class Gamemanager : MonoBehaviour, IListener {
 
@@ -10,11 +14,32 @@ public class Gamemanager : MonoBehaviour, IListener {
     float createTime = 2.0f;
     public int maxMonster = 10;
     bool isGameOver = false;
-
-    int killMonster = 0;
-	// Use this for initialization
     
-	void Start () {
+    int killMonster = 0;
+
+    public static Gamemanager Instance
+    {
+        get { return instance; }
+        set { }
+    }
+
+    public static Gamemanager instance = null;
+
+    // Use this for initialization
+    void Awake()
+    {
+        if (instance == null)
+        {
+            instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            DestroyImmediate(this);
+        }
+    }
+
+    void Start () {
         EventManager.Instance.AddListener(EVENT_TYPE.GAME_ENEMY_DIE, this);
         EventManager.Instance.AddListener(EVENT_TYPE.GAME_STATE_WIN, this);
         EventManager.Instance.AddListener(EVENT_TYPE.GAME_STATE_LOSE, this);
@@ -35,6 +60,7 @@ public class Gamemanager : MonoBehaviour, IListener {
             EventManager.Instance.PoistNotification(EVENT_TYPE.GAME_STATE_WIN, this);
             killMonster = 0;
         }
+        
     }
 
     IEnumerator CreateMonster()
@@ -62,8 +88,12 @@ public class Gamemanager : MonoBehaviour, IListener {
         switch (Event_Type)
         {
             case EVENT_TYPE.GAME_ENEMY_DIE:
-                Debug.Log(killMonster);
                 killMonster++;
+                break;
+            case EVENT_TYPE.GAME_STATE_WIN:
+                GoogleManager.Instance.PostingScoreToLeaderBoard(killMonster * 100);
+                
+                SceneManager.LoadScene("main");
                 break;
         }
     }

@@ -10,7 +10,7 @@ using GooglePlayGames.BasicApi.SavedGame;
 using System;
 
 public class GoogleManager : MonoBehaviour {
-
+    
     public static GoogleManager Instance
     {
         get { return instance; }
@@ -21,6 +21,16 @@ public class GoogleManager : MonoBehaviour {
     
     // Use this for initialization
     void Awake () {
+        if (instance == null)
+        {
+            instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            DestroyImmediate(this);
+        }
+
         PlayGamesClientConfiguration config = new PlayGamesClientConfiguration.Builder()
             .EnableSavedGames()
             .Build();
@@ -51,7 +61,7 @@ public class GoogleManager : MonoBehaviour {
     }
 
 
-    private void UnlockingAchievement()
+    private void UnlockingAchievement() //업적달성
     {
         if(CheckLogin())
         {
@@ -73,9 +83,61 @@ public class GoogleManager : MonoBehaviour {
             if (success)
             { 
                 Debug.Log("leader board success");
-                Social.ShowLeaderboardUI();
+                ((PlayGamesPlatform)Social.Active).ShowLeaderboardUI("CgkIqZHOwegXEAIQBg");
+                //Social.ShowLeaderboardUI();
             }
         });
+    }
+    
+
+    public void SaveToCloud()
+    {
+        if(!CheckLogin())
+        {
+            return;
+        }
+        else
+        {
+            OpenSavedGame("savefile", true);
+        }
+    }
+
+    void OpenSavedGame(string filename, bool bSave)
+    {
+        ISavedGameClient savedGameClient = PlayGamesPlatform.Instance.SavedGame;
+
+        if(bSave) // 세이브
+        {
+            savedGameClient.OpenWithAutomaticConflictResolution(filename,
+                DataSource.ReadCacheOrNetwork,
+                ConflictResolutionStrategy.UseLongestPlaytime,
+                OnSavedGameOpenedToSave);
+        }
+        else // 로드
+        {
+            savedGameClient.OpenWithAutomaticConflictResolution(filename,
+                DataSource.ReadCacheOrNetwork,
+                ConflictResolutionStrategy.UseLongestPlaytime,
+                OnSavedGameOpenedToRead);
+        }
+    }
+
+    void OnSavedGameOpenedToSave(SavedGameRequestStatus status, ISavedGameMetadata game)
+    {
+        if(status == SavedGameRequestStatus.Success)
+        {
+            //게임 저장 수행
+            SaveGame(game, 바이트배열, DateTime.Now.TimeOfDay);
+        }
+        else
+        {
+            // 파일 열기 실패
+        }
+    }
+
+    void OnSavedGameOpenedToRead(SavedGameRequestStatus status, ISavedGameMetadata game)
+    {
+
     }
     
     /// <summary>
@@ -84,7 +146,9 @@ public class GoogleManager : MonoBehaviour {
     /// <param name="game"></param>
     /// <param name="savedData"></param>
     /// <param name="totalPlaytime"></param>
-    private void SaveGame(ISavedGameMetadata game, byte[] savedData, TimeSpan totalPlaytime)
+    /// 
+    
+    public void SaveGame(ISavedGameMetadata game, byte[] savedData, TimeSpan totalPlaytime)
     {
         ISavedGameClient savedGameClient = PlayGamesPlatform.Instance.SavedGame;
 
@@ -97,7 +161,7 @@ public class GoogleManager : MonoBehaviour {
         SavedGameMetadataUpdate updatedMetadata = builder.Build();
         savedGameClient.CommitUpdate(game, updatedMetadata, savedData, OnSavedGameWritten);
     }
-
+    /*
     public void OnSavedGameWritten(SavedGameRequestStatus status, ISavedGameMetadata game)
     {
         if (status == SavedGameRequestStatus.Success)
@@ -110,13 +174,13 @@ public class GoogleManager : MonoBehaviour {
         }
     }
 
-    private void LoadGameData(ISavedGameMetadata game)
+    public void LoadGameData(ISavedGameMetadata game)
     {
         ISavedGameClient savedGameClient = PlayGamesPlatform.Instance.SavedGame;
         savedGameClient.ReadBinaryData(game, OnSavedGameDataRead);
     }
 
-    public void OnSavedGameDataRead(SavedGameRequestStatus status, byte[] data)
+    private void OnSavedGameDataRead(SavedGameRequestStatus status, byte[] data)
     {
         if (status == SavedGameRequestStatus.Success)
         {
@@ -126,4 +190,6 @@ public class GoogleManager : MonoBehaviour {
             // handle error
         }
     }
+    */
+
 }
