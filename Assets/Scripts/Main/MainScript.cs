@@ -12,9 +12,6 @@ public class MainScript : MonoBehaviour {
 	void Start ()
     {
         strID = "ID : " + Social.localUser.userName;
-        DataManager.Instance.userId = Social.localUser.userName;
-        DataManager.Instance.loadData();
-        strLEVEL = "LEVEL : " + DataManager.Instance.userLevel;
         ID.text = strID;
         LEVEL.text = strLEVEL;
 	}

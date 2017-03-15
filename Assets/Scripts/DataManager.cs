@@ -12,8 +12,7 @@ public class DataManager : MonoBehaviour{
     }
     public static DataManager instance = null;
 
-    PlayerData playerData;
-
+    
     void Awake()
     {
         if (instance == null)
@@ -32,6 +31,7 @@ public class DataManager : MonoBehaviour{
 
     }
 
+    /*
     public void SubmitPlayerScore(int newScore)
     {
         if(playerData.highScore < newScore)
@@ -56,5 +56,5 @@ public class DataManager : MonoBehaviour{
         PlayerPrefs.SetInt("highScore", playerData.highScore);
         PlayerPrefs.SetInt("userLevel", playerData.userLevel);
     }
-    
+    */
 }

@@ -9,8 +9,10 @@ using GooglePlayGames.BasicApi;
 using GooglePlayGames.BasicApi.SavedGame;
 using System;
 
-public class GoogleManager : MonoBehaviour {
-    
+public class GoogleManager : MonoBehaviour, IListener {
+
+    PlayerData playerData;
+    ISavedGameMetadata gl_SGM;
     public static GoogleManager Instance
     {
         get { return instance; }
@@ -46,7 +48,7 @@ public class GoogleManager : MonoBehaviour {
         {
             if (success == true)
             {
-                SceneManager.LoadScene("main");
+                OpenSavedGame("filegame");
             }
             else
             { 
@@ -89,84 +91,48 @@ public class GoogleManager : MonoBehaviour {
         });
     }
     
-
-    public void SaveToCloud()
-    {
-        if(!CheckLogin())
-        {
-            return;
-        }
-        else
-        {
-            OpenSavedGame("savefile", true);
-        }
-    }
-
-    void OpenSavedGame(string filename, bool bSave)
+    // 파일 오픈
+    void OpenSavedGame(string filename)
     {
         ISavedGameClient savedGameClient = PlayGamesPlatform.Instance.SavedGame;
-
-        if(bSave) // 세이브
-        {
-            savedGameClient.OpenWithAutomaticConflictResolution(filename,
-                DataSource.ReadCacheOrNetwork,
-                ConflictResolutionStrategy.UseLongestPlaytime,
-                OnSavedGameOpenedToSave);
-        }
-        else // 로드
-        {
-            savedGameClient.OpenWithAutomaticConflictResolution(filename,
-                DataSource.ReadCacheOrNetwork,
-                ConflictResolutionStrategy.UseLongestPlaytime,
-                OnSavedGameOpenedToRead);
-        }
+        savedGameClient.OpenWithAutomaticConflictResolution(filename,
+            DataSource.ReadCacheOrNetwork,
+            ConflictResolutionStrategy.UseLongestPlaytime,
+            OnSavedGameOpened);
     }
 
-    void OnSavedGameOpenedToSave(SavedGameRequestStatus status, ISavedGameMetadata game)
+    public void OnSavedGameOpened(SavedGameRequestStatus status, ISavedGameMetadata game)
     {
-        if(status == SavedGameRequestStatus.Success)
+        if(status == SavedGameRequestStatus.Success) // open success
         {
-            //게임 저장 수행
-            SaveGame(game, 바이트배열, DateTime.Now.TimeOfDay);
+            gl_SGM = game;
+            LoadGameData(game);
+            SceneManager.LoadScene("main");
         }
-        else
+        else // open fail
         {
-            // 파일 열기 실패
+            
         }
     }
 
-    void OnSavedGameOpenedToRead(SavedGameRequestStatus status, ISavedGameMetadata game)
-    {
-
-    }
-    
-    /// <summary>
-    /// savegame
-    /// </summary>
-    /// <param name="game"></param>
-    /// <param name="savedData"></param>
-    /// <param name="totalPlaytime"></param>
-    /// 
-    
-    public void SaveGame(ISavedGameMetadata game, byte[] savedData, TimeSpan totalPlaytime)
+    //세이브
+    void SaveGame(ISavedGameMetadata game, byte[] savedData, TimeSpan totalPlaytime)
     {
         ISavedGameClient savedGameClient = PlayGamesPlatform.Instance.SavedGame;
 
         SavedGameMetadataUpdate.Builder builder = new SavedGameMetadataUpdate.Builder();
-
         builder = builder
             .WithUpdatedPlayedTime(totalPlaytime)
             .WithUpdatedDescription("Saved game at " + DateTime.Now);
-
+       
         SavedGameMetadataUpdate updatedMetadata = builder.Build();
         savedGameClient.CommitUpdate(game, updatedMetadata, savedData, OnSavedGameWritten);
     }
-    /*
+
     public void OnSavedGameWritten(SavedGameRequestStatus status, ISavedGameMetadata game)
     {
         if (status == SavedGameRequestStatus.Success)
         {
-            Debug.Log("saved complete");
             // handle reading or writing of saved game.
         }
         else {
@@ -174,22 +140,33 @@ public class GoogleManager : MonoBehaviour {
         }
     }
 
-    public void LoadGameData(ISavedGameMetadata game)
+    //로드
+    void LoadGameData(ISavedGameMetadata game)
     {
         ISavedGameClient savedGameClient = PlayGamesPlatform.Instance.SavedGame;
         savedGameClient.ReadBinaryData(game, OnSavedGameDataRead);
     }
 
-    private void OnSavedGameDataRead(SavedGameRequestStatus status, byte[] data)
+    public void OnSavedGameDataRead(SavedGameRequestStatus status, byte[] data)
     {
         if (status == SavedGameRequestStatus.Success)
         {
+            playerData = (PlayerData)convertClsByte.ByteToObject(data);
             // handle processing the byte array data
         }
         else {
             // handle error
         }
     }
-    */
 
+    public void OnEvent(EVENT_TYPE Event_Type, Component Sender, object Param = null)
+    {
+        switch (Event_Type)
+        {
+            case EVENT_TYPE.GAME_STATE_WIN:
+                byte[] b_game = convertClsByte.ObjectToByte(playerData);
+                SaveGame(gl_SGM, b_game, DateTime.Now);
+                break;
+        }
+    }
 }
