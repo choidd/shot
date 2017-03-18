@@ -92,7 +92,7 @@ public class Gamemanager : MonoBehaviour, IListener {
                 break;
             case EVENT_TYPE.GAME_STATE_WIN:
                 GoogleManager.Instance.PostingScoreToLeaderBoard(killMonster * 100);
-                
+                PlayerData.Instance.userLevel++;
                 SceneManager.LoadScene("main");
                 break;
         }

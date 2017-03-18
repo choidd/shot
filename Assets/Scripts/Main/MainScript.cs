@@ -2,7 +2,7 @@
 using System.Collections;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
-
+using System;
 public class MainScript : MonoBehaviour {
 
     public Text ID;
@@ -11,9 +11,9 @@ public class MainScript : MonoBehaviour {
 	// Use this for initialization
 	void Start ()
     {
-        strID = "ID : " + Social.localUser.userName;
+        strID = "ID : " + PlayerData.Instance.userId;
         ID.text = strID;
-        LEVEL.text = strLEVEL;
+        LEVEL.text = "Level : " + Convert.ToString(PlayerData.Instance.userLevel);
 	}
 
     public void btn_start()

@@ -10,8 +10,7 @@ using GooglePlayGames.BasicApi.SavedGame;
 using System;
 
 public class GoogleManager : MonoBehaviour, IListener {
-
-    PlayerData playerData;
+    
     ISavedGameMetadata gl_SGM;
     public static GoogleManager Instance
     {
@@ -40,7 +39,9 @@ public class GoogleManager : MonoBehaviour, IListener {
 
         PlayGamesPlatform.DebugLogEnabled = false;
         PlayGamesPlatform.Activate();
-	}
+
+        EventManager.Instance.AddListener(EVENT_TYPE.GAME_STATE_WIN, this);
+    }
 	
     public void login()
     {        
@@ -48,6 +49,7 @@ public class GoogleManager : MonoBehaviour, IListener {
         {
             if (success == true)
             {
+                PlayerData.Instance.userId = Social.localUser.userName;
                 OpenSavedGame("filegame");
             }
             else
@@ -61,8 +63,7 @@ public class GoogleManager : MonoBehaviour, IListener {
     {
         return Social.localUser.authenticated;
     }
-
-
+    
     private void UnlockingAchievement() //업적달성
     {
         if(CheckLogin())
@@ -151,7 +152,7 @@ public class GoogleManager : MonoBehaviour, IListener {
     {
         if (status == SavedGameRequestStatus.Success)
         {
-            playerData = (PlayerData)convertClsByte.ByteToObject(data);
+            PlayerData.Instance = (PlayerData)convertClsByte.ByteToObject(data);
             // handle processing the byte array data
         }
         else {
@@ -164,8 +165,8 @@ public class GoogleManager : MonoBehaviour, IListener {
         switch (Event_Type)
         {
             case EVENT_TYPE.GAME_STATE_WIN:
-                byte[] b_game = convertClsByte.ObjectToByte(playerData);
-                SaveGame(gl_SGM, b_game, DateTime.Now);
+                byte[] b_game = convertClsByte.ObjectToByte(PlayerData.Instance);
+                //SaveGame(gl_SGM, b_game, DateTime.Now);
                 break;
         }
     }

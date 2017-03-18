@@ -31,6 +31,9 @@ public class PlayerData : MonoBehaviour {
         {
             DestroyImmediate(this);
         }
+
+        highScore = 0;
+        userLevel = 1;
     }
 
 }

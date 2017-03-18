@@ -877,7 +877,7 @@ GameObject:
   - component: {fileID: 1927377513}
   - component: {fileID: 1927377512}
   m_Layer: 0
-  m_Name: DataManager
+  m_Name: PlayerData
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -891,12 +891,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 1927377511}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 79c94f687f5fc58408c8c5c9e9916005, type: 3}
+  m_Script: {fileID: 11500000, guid: f11607707e09ced4790b456df8db0ef2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   highScore: 0
-  userLevel: 1
+  userLevel: 0
   userId: 
+  b_highScore: 
+  b_userLevel: 
 --- !u!4 &1927377513
 Transform:
   m_ObjectHideFlags: 0
