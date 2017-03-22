@@ -22,7 +22,7 @@ public class PopupManager : MonoBehaviour {
         StartCoroutine(StartShowPopup());
     }
 
-    public IEnumerator StartShowPopup()
+    private IEnumerator StartShowPopup()
     {
         float timeStart = Time.time;
         while (true)

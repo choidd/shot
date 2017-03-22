@@ -91,8 +91,9 @@ public class Gamemanager : MonoBehaviour, IListener {
                 killMonster++;
                 break;
             case EVENT_TYPE.GAME_STATE_WIN:
-                GoogleManager.Instance.PostingScoreToLeaderBoard(killMonster * 100);
+                //GoogleManager.Instance.PostingScoreToLeaderBoard(killMonster * 100);
                 PlayerData.Instance.userLevel++;
+                PopupManager.Instance.showPopup("Image");
                 SceneManager.LoadScene("main");
                 break;
         }
