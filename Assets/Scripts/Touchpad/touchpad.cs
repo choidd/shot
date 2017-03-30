@@ -131,8 +131,13 @@ public class touchpad : MonoBehaviour, IListener {
         switch (Event_Type)
         {
             case EVENT_TYPE.GAME_PLAYER_ATTACK:
+                
                 break;
         }
     }
 
+    public void onJump()
+    {
+
+    }
 }
