@@ -652,7 +652,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 773030882}
+      - m_Target: {fileID: 1430555592}
         m_MethodName: onFire
         m_Mode: 1
         m_Arguments:
@@ -994,7 +994,6 @@ GameObject:
   - component: {fileID: 773030879}
   - component: {fileID: 773030880}
   - component: {fileID: 773030881}
-  - component: {fileID: 773030882}
   m_Layer: 0
   m_Name: Gamemanager
   m_TagString: Untagged
@@ -1152,20 +1151,6 @@ MonoBehaviour:
   attackedBlood: {fileID: 2134442346}
   success: {fileID: 26934230}
   setupWindow: {fileID: 1775285198}
---- !u!114 &773030882
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 773030875}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8f3f06808229b9147b2c602ccaf2ffe3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _dragRadius: 60
-  _player: {fileID: 0}
-  playerTr: {fileID: 0}
 --- !u!1 &789839161
 GameObject:
   m_ObjectHideFlags: 0
@@ -1670,6 +1655,7 @@ GameObject:
   - component: {fileID: 1430555589}
   - component: {fileID: 1430555591}
   - component: {fileID: 1430555590}
+  - component: {fileID: 1430555592}
   m_Layer: 5
   m_Name: joystick
   m_TagString: Untagged
@@ -1730,6 +1716,18 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1430555588}
+--- !u!114 &1430555592
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1430555588}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8f3f06808229b9147b2c602ccaf2ffe3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _player: {fileID: 1432705924}
 --- !u!1 &1432705921
 GameObject:
   m_ObjectHideFlags: 0
@@ -2031,7 +2029,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 773030882}
+      - m_Target: {fileID: 1430555592}
         m_MethodName: onJump
         m_Mode: 1
         m_Arguments:
@@ -2517,9 +2515,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8f3f06808229b9147b2c602ccaf2ffe3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _dragRadius: 60
   _player: {fileID: 1432705924}
-  playerTr: {fileID: 1432705922}
 --- !u!114 &2017148074
 MonoBehaviour:
   m_ObjectHideFlags: 0

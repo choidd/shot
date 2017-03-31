@@ -27,8 +27,7 @@ public class PlayerManager : MonoBehaviour, IListener {
         gun = GameObject.Find("attackArea").transform; // 총알 나가는 위치
         EventManager.Instance.AddListener(EVENT_TYPE.GAME_PLAYER_DAMAGED, this);
         EventManager.Instance.AddListener(EVENT_TYPE.GAME_PLAYER_ATTACK, this);
-
-        StartCoroutine(State_Control());
+        
     }
 	
 	// Update is called once per frame
@@ -41,26 +40,6 @@ public class PlayerManager : MonoBehaviour, IListener {
         }
     }
    
-    public IEnumerator State_Control()
-    {
-        while(true)
-        {
-            yield return new WaitForSeconds(.1f);
-            switch (current_state)
-            {
-                case PLAYER_STATE.IDLE:
-                    break;
-                case PLAYER_STATE.WALK:
-                    break;
-                case PLAYER_STATE.CHASE:
-                    break;
-                case PLAYER_STATE.ATTACK:
-                    break;
-            }
-            
-        }
-
-    }
     public void OnEvent(EVENT_TYPE Event_Type, Component Sender, object Param = null)
     {
         switch(Event_Type)

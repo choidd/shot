@@ -9,16 +9,12 @@ public class touchpad : MonoBehaviour, IListener {
 
     private Vector3 _startPos = Vector3.zero;
 
-    public float _dragRadius = 60f;
+    private float _dragRadius = 60f;
 
     public PlayerManager _player;
 
     private bool _buttonPressed = false;
-
-    public Transform playerTr;
-
-    Ray ray;
-    RaycastHit rayHit;
+    
     // Use this for initialization
     void Start()
     {
