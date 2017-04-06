@@ -3,12 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerManager : MonoBehaviour, IListener {
-    public enum PLAYER_STATE
-    {
-        IDLE, WALK, ATTACK, CHASE
-    };
-
-    PLAYER_STATE current_state = PLAYER_STATE.IDLE;
     
     Ray ray;
     RaycastHit hit;

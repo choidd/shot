@@ -6,39 +6,47 @@ using UnityEngine.UI;
 public class PopupManager : MonoBehaviour {
 
 	public static PopupManager Instance { set; get; }
-
-    private Transform PopupBackground;
-
+    
     static private PopupManager instance;
+
+    public CanvasGroup canvasGroup;
+    public Text titleText;
+    public Text descriptionText;
+
+    private Transform uiRoot;
 
     void Start()
     {
         instance = this;
+        DontDestroyOnLoad(gameObject);
+
+        canvasGroup.alpha = 0;
+        canvasGroup.blocksRaycasts = false;
+        canvasGroup.interactable = false;
+    }
+    
+    public void ShowPopup(string title, string message)
+    {
+        if (uiRoot == null)
+            uiRoot = GameObject.FindGameObjectWithTag("UIRoot").transform;
+
+        transform.SetParent(uiRoot);
+
+        canvasGroup.alpha = 1;
+        canvasGroup.blocksRaycasts = true;
+        canvasGroup.interactable = true;
+
+        titleText.text = title;
+        descriptionText.text = message;
+
     }
 
-    public void showPopup(string ObjName)
+    public void OnClick()
     {
-        PopupBackground = GameObject.Find(ObjName).transform;
-        StartCoroutine(StartShowPopup());
-    }
+        canvasGroup.alpha = 0;
+        canvasGroup.blocksRaycasts = false;
+        canvasGroup.interactable = false;
 
-    private IEnumerator StartShowPopup()
-    {
-        float timeStart = Time.time;
-        while (true)
-        {
-            float timePassed = Time.time - timeStart;
-            float rate = timePassed / 0.5f;
-
-            PopupBackground.localPosition = new Vector3(0f, 1500f - 1500f * rate, 0f);
-
-            if (timePassed > 0.5f)
-            {
-                PopupBackground.localPosition = new Vector3(0f, 0f, 0f);
-                break;
-            }
-
-            yield return new WaitForFixedUpdate();
-        }
+        transform.SetParent(uiRoot.parent);
     }
 }

@@ -9,9 +9,8 @@ using GooglePlayGames.BasicApi;
 using GooglePlayGames.BasicApi.SavedGame;
 using System;
 
-public class GoogleManager : MonoBehaviour, IListener {
+public class GoogleManager : MonoBehaviour {
     
-    ISavedGameMetadata gl_SGM;
     public static GoogleManager Instance
     {
         get { return instance; }
@@ -39,8 +38,6 @@ public class GoogleManager : MonoBehaviour, IListener {
 
         PlayGamesPlatform.DebugLogEnabled = false;
         PlayGamesPlatform.Activate();
-
-        EventManager.Instance.AddListener(EVENT_TYPE.GAME_STATE_WIN, this);
     }
 	
     public void login()
@@ -49,11 +46,13 @@ public class GoogleManager : MonoBehaviour, IListener {
         {
             if (success == true)
             {
-                PlayerData.Instance.userId = Social.localUser.userName;
-                OpenSavedGame("filegame");
+                PopupManager.Instance.ShowPopup("success", "google");
+                PlayerData.Instance.loadLocal();
+                SceneManager.LoadScene("MainMenu");
             }
             else
-            { 
+            {
+                PopupManager.Instance.ShowPopup("error", "google");
                 Debug.Log("login error");
             }
         });
@@ -106,9 +105,6 @@ public class GoogleManager : MonoBehaviour, IListener {
     {
         if(status == SavedGameRequestStatus.Success) // open success
         {
-            gl_SGM = game;
-            LoadGameData(game);
-            SceneManager.LoadScene("main");
         }
         else // open fail
         {
@@ -152,22 +148,11 @@ public class GoogleManager : MonoBehaviour, IListener {
     {
         if (status == SavedGameRequestStatus.Success)
         {
-            PlayerData.Instance = (PlayerData)convertClsByte.ByteToObject(data);
             // handle processing the byte array data
         }
         else {
             // handle error
         }
     }
-
-    public void OnEvent(EVENT_TYPE Event_Type, Component Sender, object Param = null)
-    {
-        switch (Event_Type)
-        {
-            case EVENT_TYPE.GAME_STATE_WIN:
-                byte[] b_game = convertClsByte.ObjectToByte(PlayerData.Instance);
-                //SaveGame(gl_SGM, b_game, DateTime.Now);
-                break;
-        }
-    }
+    
 }

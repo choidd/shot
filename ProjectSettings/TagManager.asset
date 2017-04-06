@@ -10,6 +10,7 @@ TagManager:
   - Bullet
   - Terrain
   - Fire
+  - UIRoot
   layers:
   - Default
   - TransparentFX
