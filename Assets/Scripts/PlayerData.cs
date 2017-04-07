@@ -19,13 +19,13 @@ public class PlayerData : MonoBehaviour {
         get { return instance; }
         set { }
     }
-    public static PlayerData instance = null;
+    private static PlayerData instance = null;
 
     
     private string savedData;
 
     public string id;
-    public int level;
+    public int level = 0;
     public int heart_cnt;
 
     bool isSaving = false;
@@ -58,7 +58,7 @@ public class PlayerData : MonoBehaviour {
     }
 
     public void saveLocal()
-    {
+    {        
         PlayerPrefs.SetFloat("totalPlayTime", totalPlayTime);
         LastSave = Time.time;
         PlayerPrefs.SetString("SaveString", getSavingString());

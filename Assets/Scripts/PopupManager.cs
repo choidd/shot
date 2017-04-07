@@ -5,8 +5,11 @@ using UnityEngine.UI;
 
 public class PopupManager : MonoBehaviour {
 
-	public static PopupManager Instance { set; get; }
-    
+    public static PopupManager Instance
+    {
+        get { return instance; }
+        set { }
+    }
     static private PopupManager instance;
 
     public CanvasGroup canvasGroup;
@@ -27,6 +30,7 @@ public class PopupManager : MonoBehaviour {
     
     public void ShowPopup(string title, string message)
     {
+        Debug.Log("call show popup");
         if (uiRoot == null)
             uiRoot = GameObject.FindGameObjectWithTag("UIRoot").transform;
 

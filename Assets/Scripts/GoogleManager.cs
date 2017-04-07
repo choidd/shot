@@ -47,13 +47,13 @@ public class GoogleManager : MonoBehaviour {
             if (success == true)
             {
                 PopupManager.Instance.ShowPopup("success", "google");
-                PlayerData.Instance.loadLocal();
+//PlayerData.Instance.loadLocal();
                 SceneManager.LoadScene("MainMenu");
             }
             else
             {
-                PopupManager.Instance.ShowPopup("error", "google");
                 Debug.Log("login error");
+                PopupManager.Instance.ShowPopup("error", "google");
             }
         });
     }
