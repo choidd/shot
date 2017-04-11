@@ -22,6 +22,7 @@ public class touchpad : MonoBehaviour, IListener {
         _startPos = _touchPad.position;
 
         EventManager.Instance.AddListener(EVENT_TYPE.GAME_PLAYER_ATTACK, this);
+        EventManager.Instance.AddListener(EVENT_TYPE.GAME_PLAYER_JUMP, this);
     }
 
     // Update is called once per frame
@@ -134,6 +135,6 @@ public class touchpad : MonoBehaviour, IListener {
 
     public void onJump()
     {
-
+        EventManager.Instance.PoistNotification(EVENT_TYPE.GAME_PLAYER_JUMP, this);
     }
 }
