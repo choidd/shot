@@ -68,7 +68,7 @@ public class PlayerData : MonoBehaviour {
         //PlayerPrefs.SetInt("heart_cnt", heart_cnt);
     }
 
-    public void loadCloud()
+    private void loadCloud()
     {
         isSaving = false;
         ((PlayGamesPlatform)Social.Active).SavedGame.OpenWithAutomaticConflictResolution
@@ -78,7 +78,7 @@ public class PlayerData : MonoBehaviour {
                 SavedGameOpened);
     }
 
-    public void saveCloud()
+    private void saveCloud()
     {
         if(Social.localUser.authenticated)
         {

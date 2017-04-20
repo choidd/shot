@@ -5,7 +5,6 @@ using UnityEngine.SceneManagement;
 using GooglePlayGames.BasicApi;
 using GooglePlayGames.BasicApi.SavedGame;
 
-
 public class Gamemanager : MonoBehaviour, IListener {
 
     public Transform[] monsterpoints;
@@ -92,8 +91,12 @@ public class Gamemanager : MonoBehaviour, IListener {
                 break;
             case EVENT_TYPE.GAME_STATE_WIN:
                 //GoogleManager.Instance.PostingScoreToLeaderBoard(killMonster * 100);
-                SceneManager.LoadScene("MainMenu");
-                PlayerData.Instance.saveLocal();
+                //SceneManager.LoadScene("MainMenu");
+                //PlayerData.Instance.saveLocal();
+                PopupManager.Instance.ShowPopup("success","abc");
+                Debug.Log("Abc");
+                break;
+            case EVENT_TYPE.GAME_STATE_LOSE:
                 break;
         }
     }

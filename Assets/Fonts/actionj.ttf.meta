@@ -1,0 +1,21 @@
+fileFormatVersion: 2
+guid: 53a9f43652ea1f64caa206c82b2e6b89
+timeCreated: 1492008292
+licenseType: Free
+TrueTypeFontImporter:
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: Action Jackson
+  fontNames:
+  - Action Jackson
+  fallbackFontReferences: []
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

@@ -39,6 +39,7 @@ public class UIManager : MonoBehaviour, IListener {
             case EVENT_TYPE.GAME_ENEMY_DIE: // 점수올라가야하고.. Kill! 뭐 이런 이펙트하나 있어야지?
                 break;
             case EVENT_TYPE.GAME_OPTION_CLICK:
+                /*
                 if (issetupWindow == false)
                 {
                     setupWindow.SetActive(true);
@@ -49,6 +50,8 @@ public class UIManager : MonoBehaviour, IListener {
                     setupWindow.SetActive(false);
                     issetupWindow = false;
                 }
+                */
+                PopupManager.Instance.ShowPopup("option", "aa");
                 break;
             case EVENT_TYPE.GAME_STATE_WIN:
                 success.SetActive(true);

@@ -18,7 +18,7 @@ public class GoogleManager : MonoBehaviour {
     }
 
     public static GoogleManager instance = null;
-    
+
     // Use this for initialization
     void Awake () {
         if (instance == null)
@@ -32,26 +32,28 @@ public class GoogleManager : MonoBehaviour {
         }
 
         PlayGamesClientConfiguration config = new PlayGamesClientConfiguration.Builder()
-            .EnableSavedGames()
-            .Build();
+        // enables saving game progress.
+        .EnableSavedGames()
+        .Build();
         PlayGamesPlatform.InitializeInstance(config);
 
         PlayGamesPlatform.DebugLogEnabled = false;
         PlayGamesPlatform.Activate();
     }
 	
-    public void login()
+    private void login()
     {        
         Social.localUser.Authenticate((bool success) =>
         {
             if (success == true)
             {
-                SceneManager.LoadScene("MainMenu");
                 PlayerData.Instance.loadLocal();
+                SceneManager.LoadScene("MainMenu");
+                
             }
             else
             {
-                PopupManager.Instance.ShowPopup("error", "google");
+                //PopupManager.Instance.ShowPopup("error", "google");
             }
         });
     }
